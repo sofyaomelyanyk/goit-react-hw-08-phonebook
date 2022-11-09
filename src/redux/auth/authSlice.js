@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { register, logIn, logOut } from './authOperations';
+import { register, logIn, logOut, fetchCurrentUser } from './authOperations';
 
-initialState = {
+const initialState = {
   user: { name: '', email: '' },
   token: null,
   isLoggedIn: false,
@@ -20,6 +20,7 @@ const authSlice = createSlice({
     [register.fulfilled]: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
+      state.contacts.isLoading = false;
       state.isLoggedIn = true;
     },
     [register.rejected]: (state, { payload }) => {
@@ -32,6 +33,7 @@ const authSlice = createSlice({
     [logIn.fulfilled]: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
+      state.contacts.isLoading = false;
       state.isLoggedIn = true;
     },
     [logIn.rejected]: (state, { payload }) => {
@@ -46,8 +48,21 @@ const authSlice = createSlice({
       state.user.email = '';
       state.token = null;
       state.isLoggedIn = false;
+      state.contacts.isLoading = false;
     },
     [logOut.rejected]: (state, { payload }) => {
+      state.contacts.error = payload;
+      state.contacts.isLoading = false;
+    },
+    [fetchCurrentUser.pending]: state => {
+      state.contacts.isLoading = true;
+    },
+    [fetchCurrentUser.fulfilled]: (state, { payload }) => {
+      state.user = payload;
+      state.contacts.isLoading = false;
+      state.isLoggedIn = true;
+    },
+    [fetchCurrentUser.rejected]: (state, { payload }) => {
       state.contacts.error = payload;
       state.contacts.isLoading = false;
     },
