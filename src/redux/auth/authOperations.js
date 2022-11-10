@@ -12,12 +12,6 @@ const token = {
   },
 };
 
-// {
-//    "name": "Adrian Cross",
-//    "email": "across@mail.com",
-//    "password": "examplepwd12345"
-//  }
-
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, { rejectWithValue }) => {
@@ -31,10 +25,6 @@ export const register = createAsyncThunk(
   }
 );
 
-// {
-//    "email": "string",
-//    "password": "string"
-//  }
 
 export const logIn = createAsyncThunk(
   'auth/login',
@@ -64,7 +54,7 @@ export const logOut = createAsyncThunk(
 
 export const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
-  async (_,  thunkAPI ) => {
+  async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const persistedToken = state.auth.token;
 

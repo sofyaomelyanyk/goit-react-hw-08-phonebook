@@ -8,6 +8,7 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   error: null,
+  isFetchingCurrentUser: false,
 };
 
 const authSlice = createSlice({
@@ -15,56 +16,59 @@ const authSlice = createSlice({
   initialState,
   extraReducers: {
     [register.pending]: state => {
-      state.contacts.isLoading = true;
+      state.isLoading = true;
     },
     [register.fulfilled]: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-      state.contacts.isLoading = false;
+      state.isLoading = false;
       state.isLoggedIn = true;
     },
     [register.rejected]: (state, { payload }) => {
-      state.contacts.error = payload;
-      state.contacts.isLoading = false;
+      state.error = payload;
+      state.isLoading = false;
     },
     [logIn.pending]: state => {
-      state.contacts.isLoading = true;
+      state.isLoading = true;
     },
     [logIn.fulfilled]: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-      state.contacts.isLoading = false;
+      state.isLoading = false;
       state.isLoggedIn = true;
     },
     [logIn.rejected]: (state, { payload }) => {
-      state.contacts.error = payload;
-      state.contacts.isLoading = false;
+      state.error = payload;
+      state.isLoading = false;
     },
     [logOut.pending]: state => {
-      state.contacts.isLoading = true;
+      state.isLoading = true;
     },
     [logOut.fulfilled]: (state, { payload }) => {
       state.user.name = '';
       state.user.email = '';
       state.token = null;
       state.isLoggedIn = false;
-      state.contacts.isLoading = false;
+      state.isLoading = false;
     },
     [logOut.rejected]: (state, { payload }) => {
-      state.contacts.error = payload;
-      state.contacts.isLoading = false;
+      state.error = payload;
+      state.isLoading = false;
     },
     [fetchCurrentUser.pending]: state => {
-      state.contacts.isLoading = true;
+      state.isLoading = true;
+      state.isFetchingCurrentUser = true;
     },
     [fetchCurrentUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
-      state.contacts.isLoading = false;
+      state.isFetchingCurrentUser = false;
+      state.isLoading = false;
       state.isLoggedIn = true;
     },
     [fetchCurrentUser.rejected]: (state, { payload }) => {
-      state.contacts.error = payload;
-      state.contacts.isLoading = false;
+      state.error = payload;
+      state.isLoading = false;
+      state.isFetchingCurrentUser = false;
     },
   },
 });
